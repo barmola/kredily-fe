@@ -40,8 +40,8 @@ export default function AddEditLeaveForm({ isEdit = false, currentLeave }) {
 
   const defaultValues = useMemo(
     () => ({
-      start_date: currentLeave?.start_date || null,
-      end_date: currentLeave?.start_date || null,
+      start_date: currentLeave?.start_date ? moment(currentLeave?.start_date) : null,
+      end_date: currentLeave?.end_date ? moment(currentLeave?.end_date) : null,
       reason: currentLeave?.reason || "",
       leave_type: currentLeave?.leave_type || "",
       status: currentLeave?.status || "pending",
