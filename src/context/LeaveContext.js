@@ -4,16 +4,6 @@ import { useAuthContext } from "src/auth/useAuthContext";
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { v4 } from "uuid";
 
-// ----------------------------------------------------------------------
-
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-
 export const LeaveContext = createContext(null);
 
 // ----------------------------------------------------------------------
@@ -29,6 +19,12 @@ export function LeaveProvider({ children }) {
 
   console.log("User:", user);
 
+  /**
+   * Asynchronously requests leave.
+   *
+   * @param {Object} leaveData - the data for the leave request
+   * @return {Promise<DocumentReference | Error>} a Promise that resolves with the document reference if successful, or rejects with an error
+   */
   const requestLeave = async (leaveData) => {
     try {
       const leaveRequestsRef = collection(DB, "leaveRequests");
@@ -43,6 +39,11 @@ export function LeaveProvider({ children }) {
     }
   };
 
+  /**
+   * Fetches leave requests for the current user and updates the state accordingly.
+   *
+   * @return {Promise} The fetched leave requests or an error if the request fails.
+   */
   const fetchLeaveRequests = async () => {
     try {
       setLoading(true);
@@ -58,6 +59,11 @@ export function LeaveProvider({ children }) {
     }
   };
 
+  /**
+   * Function to fetch all leave requests from the database and update the state with the retrieved data.
+   *
+   * @return {Promise} The function returns a promise.
+   */
   const fetchAllLeaveRequests = async () => {
     try {
       setLoading(true);
@@ -72,6 +78,12 @@ export function LeaveProvider({ children }) {
     }
   };
 
+  /**
+   * Fetches a leave request by its ID.
+   *
+   * @param {string} id - The ID of the leave request to fetch
+   * @return {Promise<object>} The leave request data, including the ID
+   */
   const fetchLeaveRequestsById = async (id) => {
     try {
       const leaveRequestRef = doc(DB, "leaveRequests", id);
@@ -90,6 +102,12 @@ export function LeaveProvider({ children }) {
     }
   };
 
+  /**
+   * Deletes a leave request with the given id.
+   *
+   * @param {string} id - The id of the leave request to be deleted
+   * @return {Promise} A Promise that resolves with the delete response or rejects with an error
+   */
   const deleteLeaveRequest = async (id) => {
     try {
       const deleteResponse = await deleteDoc(doc(DB, "leaveRequests", id));
@@ -100,6 +118,13 @@ export function LeaveProvider({ children }) {
     }
   };
 
+  /**
+   * Update a leave request in the database.
+   *
+   * @param {string} id - The ID of the leave request to update
+   * @param {object} data - The data to update the leave request with
+   * @return {Promise} A Promise that resolves with the update response or rejects with an error
+   */
   const updateLeaveRequest = async (id, data) => {
     try {
       const leaveRequestsRef = collection(DB, "leaveRequests");
